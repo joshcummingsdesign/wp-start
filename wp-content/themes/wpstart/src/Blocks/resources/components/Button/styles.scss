@@ -1,0 +1,32 @@
+@use '../../styles/buttons' as *;
+
+.wpstart-button {
+    /* ----- Root -----*/
+
+    &__root {
+        @include button;
+
+        /* ----- Disabled -----*/
+
+        &[disabled],
+        &.disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        /* ----- Text -----*/
+        &.text {
+            cursor: auto;
+
+            &:focus,
+            &:hover {
+                opacity: 1;
+            }
+        }
+
+        /* ----- Dark -----*/
+        &.dark {
+            @include button(dark);
+        }
+    }
+}

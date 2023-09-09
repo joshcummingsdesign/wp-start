@@ -1,0 +1,55 @@
+# System
+.DS_Store
+.phpunit.result.cache
+
+# Dependencies
+node_modules
+/vendor
+
+# Build
+strauss.phar
+
+# Ignore everything except configuration and wp-content
+/*
+!.editorconfig
+!.env.example
+!.github
+!.gitignore
+!.lando.yml
+!.nvmrc
+!.prettierignore
+!.prettierrc.json
+!.storybook
+!/index.php
+!README.md
+!composer.json
+!composer.lock
+!globals.d.ts
+!package-lock.json
+!package.json
+!scripts
+!tsconfig.json
+!webpack.config.client.js
+!webpack.config.js
+!webpack.config.server.js
+!wp-content
+
+# Ignore everything in wp-content except what we want
+wp-content/*
+!wp-content/themes
+!wp-content/mu-plugins
+!wp-content/plugins
+
+# Only version the themes we want
+wp-content/themes/*
+!wp-content/themes/wpstart
+wp-content/themes/wpstart/vendor
+wp-content/themes/wpstart/build
+
+# Only version the mu-plugins we want
+wp-content/mu-plugins/*
+!wp-content/mu-plugins/force-plugin-activation.php
+
+# Only version the plugins we want
+wp-content/plugins/*
+#!wp-content/plugins/wordpress-seo-premium

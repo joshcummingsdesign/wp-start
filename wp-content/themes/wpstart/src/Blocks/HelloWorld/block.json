@@ -1,0 +1,22 @@
+{
+    "$schema": "https://json.schemastore.org/block.json",
+    "apiVersion": 3,
+    "name": "wpstart/hello-world",
+    "title": "Hello World",
+    "description": "The hello world block.",
+    "icon": "admin-site-alt3",
+    "category": "wpstart-blocks",
+    "supports": {
+        "html": false
+    },
+    "attributes": {
+        "blockId": {
+            "type": "string",
+            "default": ""
+        },
+        "className": {
+            "type": "string",
+            "default": ""
+        }
+    }
+}

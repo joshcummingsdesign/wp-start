@@ -1,0 +1,19 @@
+{
+    "$schema": "https://json.schemastore.org/block.json",
+    "apiVersion": 3,
+    "name": "wpstart/test-block",
+    "title": "Test Block",
+    "description": "A test block.",
+    "icon": "wordpress",
+    "category": "theme",
+    "attributes": {
+        "blockId": {
+            "type": "string",
+            "default": ""
+        },
+        "className": {
+            "type": "string",
+            "default": ""
+        }
+    }
+}

@@ -1,0 +1,16 @@
+@use './easings' as *;
+
+$t-short: 0.1s;
+$t-med: 0.2s;
+$t-long: 0.3s;
+
+// Transition shorthand syntax
+@mixin transition($properties, $duration, $easing: linear, $delay: 0s) {
+    $props: ();
+
+    @each $p in $properties {
+        $props: append($props, $p $duration $easing $delay, comma);
+    }
+
+    transition: $props !important;
+}

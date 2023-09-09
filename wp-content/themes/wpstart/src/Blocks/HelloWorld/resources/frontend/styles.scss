@@ -1,0 +1,19 @@
+@use '../../../resources/styles/colors' as *;
+
+.wpstart-hello-world {
+    /* ----- Root -----*/
+
+    &__root {
+        color: $black;
+        text-align: center;
+    }
+
+    &__form {
+        display: flex;
+        justify-content: center;
+
+        input {
+            margin-right: 5px;
+        }
+    }
+}

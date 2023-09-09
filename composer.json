@@ -1,0 +1,45 @@
+{
+    "name": "joshcummingsdesign/wp-start",
+    "license": "GPL-2.0-or-later",
+    "description": "A starter WordPress framework.",
+    "homepage": "https://github.com/joshcummingsdesign/wp-start",
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/installers": true,
+            "johnpbloch/wordpress-core-installer": true
+        }
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://wpackagist.org"
+        }
+    ],
+    "require": {
+        "ext-dom": "*",
+        "ext-json": "*",
+        "ext-libxml": "*",
+        "johnpbloch/wordpress-core": "6.3.1",
+        "johnpbloch/wordpress-core-installer": "^2.0"
+    },
+    "require-dev": {
+        "kjohnson/since-unreleased": "^1.0",
+        "roave/security-advisories": "dev-latest"
+    },
+    "extra": {
+        "enable-patching": true,
+        "wordpress-install-dir": "wp",
+        "installer-paths": {
+            "wp-content/mu-plugins/{$name}": [
+                "type:wordpress-muplugin"
+            ],
+            "wp-content/plugins/{$name}": [
+                "type:wordpress-plugin"
+            ],
+            "wp-content/themes/{$name}": [
+                "type:wordpress-theme"
+            ]
+        }
+    }
+}

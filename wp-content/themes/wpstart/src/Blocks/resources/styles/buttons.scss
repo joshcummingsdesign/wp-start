@@ -1,0 +1,28 @@
+@use './borders' as *;
+@use './colors' as *;
+
+// Buttons
+@mixin button($theme: light) {
+    background-color: $grey;
+    color: $black;
+    display: inline-flex;
+    align-items: center;
+    border-radius: $br-xs;
+    padding: 0.67em 1.33em;
+    text-decoration: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: opacity 0.2s ease-in-out;
+
+    @if $theme == dark {
+        background-color: $black;
+        color: $white;
+        box-shadow: none;
+    }
+
+    &:focus,
+    &:hover {
+        opacity: 0.75;
+    }
+}

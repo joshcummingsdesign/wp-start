@@ -1,0 +1,65 @@
+{
+    "name": "joshcummingsdesign/wp-start",
+    "license": "GPL-2.0-or-later",
+    "description": "A starter WordPress framework.",
+    "homepage": "https://github.com/joshcummingsdesign/wp-start",
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    },
+    "scripts": {
+        "strauss": [
+            "test -f ./bin/strauss.phar || curl -o bin/strauss.phar -L -C - https://github.com/BrianHenryIE/strauss/releases/download/0.13.0/strauss.phar",
+            "@php bin/strauss.phar"
+        ],
+        "post-install-cmd": [
+            "@strauss"
+        ],
+        "post-update-cmd": [
+            "@strauss"
+        ]
+    },
+    "autoload": {
+        "files": [
+            "src/Framework/ServiceContainer/app.php"
+        ],
+        "psr-4": {
+            "WPStart\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "htmlburger/carbon-fields": "^3.3",
+        "iamntz/carbon-fields-urlpicker": "^3.0",
+        "php-di/php-di": "^7.0",
+        "spatie/server-side-rendering": "^0.3.2",
+        "stellarwp/container-contract": "^1.0",
+        "stellarwp/validation": "^1.0"
+    },
+    "require-dev": {
+        "brianhenryie/strauss": "^0.13.0",
+        "phpunit/phpunit": "^8.5",
+        "roave/security-advisories": "dev-latest",
+        "spatie/phpunit-watcher": "^1.23",
+        "yoast/phpunit-polyfills": "^1.0"
+    },
+    "extra": {
+        "strauss": {
+            "target_directory": "vendor/vendor-prefixed",
+            "namespace_prefix": "WPStart\\Vendor\\",
+            "classmap_prefix": "WPStart_Vendor_",
+            "constant_prefix": "WPSTART_VENDOR_",
+            "delete_vendor_files": true,
+            "packages": [
+                "stellarwp/container-contract",
+                "stellarwp/validation"
+            ]
+        }
+    }
+}

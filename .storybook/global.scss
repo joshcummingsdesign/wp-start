@@ -1,0 +1,9 @@
+@use '../wp-content/themes/wpstart/src/Blocks/resources/styles/typography' as *;
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: $font;
+}

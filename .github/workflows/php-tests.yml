@@ -1,0 +1,60 @@
+name: PHP Tests
+
+on: [ push ]
+
+env:
+    THEME_SLUG: wpstart
+
+jobs:
+    test:
+        name: PHP Tests
+        runs-on: ubuntu-latest
+        services:
+            mysql:
+                image: mariadb:10.5
+                env:
+                    MYSQL_ROOT_PASSWORD: root
+                ports:
+                    - 3306
+                options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        steps:
+            # ---------- Checkout ---------- #
+
+            -   name: Checkout
+                uses: actions/checkout@v3
+
+            # ---------- Setup Environment ---------- #
+
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: 8.1
+                    extensions: mbstring
+
+            # ---------- Cache Dependencies ---------- #
+
+            -   name: Get Composer Cache Directory
+                id: composer-cache
+                run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+            -   name: Cache Composer Dependencies
+                uses: actions/cache@v3
+                with:
+                    path: ${{ steps.composer-cache.outputs.dir }}
+                    key: ${{ runner.os }}-composer-${{ hashFiles(format('wp-content/themes/{0}/composer.lock', env.THEME_SLUG)) }}
+
+            # ---------- Install ---------- #
+
+            -   name: Install PHP Dependencies
+                run: composer install -d wp-content/themes/$THEME_SLUG
+
+            # ---------- Test ---------- #
+
+            -   name: Install WP Tests
+                run: bash wp-content/themes/$THEME_SLUG/tests/bin/install.sh wordpress root root 127.0.0.1:${{ job.services.mysql.ports['3306'] }}
+
+            -   name: Run Unit Tests
+                run: wp-content/themes/$THEME_SLUG/vendor/bin/phpunit -c wp-content/themes/$THEME_SLUG/phpunit.xml --testsuite unit
+
+            -   name: Run Integration Tests
+                run: wp-content/themes/$THEME_SLUG/vendor/bin/phpunit -c wp-content/themes/$THEME_SLUG/phpunit.xml --testsuite integration

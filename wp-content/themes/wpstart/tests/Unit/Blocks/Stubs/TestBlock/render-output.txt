@@ -1,0 +1,7 @@
+<script>
+    window["abcd_12345"] = {"blockId":"abcd-12345","className":"my-custom-class"};
+</script>
+
+<div id="abcd-12345" class="wpstart-test-block">
+    <div>Hello World</div>
+</div>

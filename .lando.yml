@@ -1,0 +1,78 @@
+name: wpstart
+recipe: wordpress
+config:
+    php: '8.1'
+    composer_version: '2.3.10'
+    via: apache:2.4
+    webroot: .
+    xdebug: true
+services:
+    appserver:
+        build_as_root:
+            - apt-get update -y && apt-get install -y subversion
+            - rm -f /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && /etc/init.d/apache2 reload
+        overrides:
+            environment:
+                # Support debugging CLI with XDEBUG.
+                PHP_IDE_CONFIG: "serverName=appserver"
+                XDEBUG_SESSION_START: lando
+            volumes:
+                - /tmp/wp-test:/tmp/wp-test
+    database:
+        type: mariadb:10.5
+        portforward: true
+        creds:
+            user: wordpress
+            password: wordpress
+            database: wordpress
+    database_testing:
+        type: mariadb:10.5
+        portforward: true
+        creds:
+            user: wordpress
+            password: wordpress
+            database: wordpress
+    mailhog:
+        type: mailhog
+        portforward: true
+        hogfrom:
+            - appserver
+tooling:
+    xdebug-on:
+        service: appserver
+        description: Enable Xdebug for Apache.
+        cmd: rm -f /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && docker-php-ext-enable xdebug && /etc/init.d/apache2 reload && echo "Xdebug enabled"
+        user: root
+    xdebug-off:
+        service: appserver
+        description: Disable Xdebug for Apache.
+        cmd: rm -f /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && /etc/init.d/apache2 reload && echo "Xdebug disabled"
+        user: root
+    setup-tests:
+        service: appserver
+        description: Run the PHPUnit installer.
+        dir: /app/wp-content/themes/wpstart/tests/bin
+        cmd: ./install.sh wordpress wordpress wordpress database_testing
+    watch-tests:
+        service: appserver
+        description: Run the PHPUnit watcher.
+        dir: /app/wp-content/themes/wpstart
+        cmd: ./vendor/bin/phpunit-watcher watch
+    watch-unit-tests:
+        service: appserver
+        description: Run the PHPUnit watcher.
+        dir: /app/wp-content/themes/wpstart
+        cmd: ./vendor/bin/phpunit-watcher watch --testsuite unit
+    watch-integration-tests:
+        service: appserver
+        description: Run the PHPUnit watcher.
+        dir: /app/wp-content/themes/wpstart
+        cmd: ./vendor/bin/phpunit-watcher watch --testsuite integration
+    export-db:
+        service: appserver
+        description: Export and gzip your database.
+        cmd: ./scripts/export-db.sh
+    install-node:
+        service: appserver
+        description: Install Node.js.
+        cmd: ./scripts/install-node.sh
