@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
 # Error codes
-export CONFIRMATION_ERROR=1
-export INVALID_ARGUMENT_ERROR=2
+export INVALID_ARGUMENT_ERROR=1
 
 # Colors
 export RED='\033[0;31m'
@@ -12,7 +11,6 @@ export BLUE='\033[0;34m'
 export NC='\033[0m'
 
 # Site
-export DB_FILE=db_export_`date +'%s'`.sql
 export NODE_VERSION=$(cat .nvmrc)
 
 # .env
